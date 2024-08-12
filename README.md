@@ -1,6 +1,3 @@
-Here's a README template for your GitHub project:
-
----
 
 # Active Alert System
 
