@@ -2,7 +2,7 @@ import os
 os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
 from pathlib import Path
 from ultralytics import YOLO
-
+from dotenv import load_dotenv
 import cvzone
 import math
 
@@ -30,11 +30,17 @@ from google.auth.transport.requests import Request
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("/Users/gurlivkaurbajwa/Downloads/asserts")
+ASSETS_PATH = OUTPUT_PATH / Path("./asserts")
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 SCOPES = ['https://mail.google.com/']
+
+
+load_dotenv()
+
+api_key = os.getenv("API_KEY")
+gmail_user = os.getenv("GMAIL_USER")
 
 def get_service():
     creds = None
@@ -46,7 +52,7 @@ def get_service():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                '/Users/gurlivkaurbajwa/Downloads/asserts/client.json', SCOPES)
+                'API_KEY', SCOPES)
             creds = flow.run_local_server(port=0)
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
@@ -108,13 +114,16 @@ def send_emergency_email(screenshot_path):
         service = get_service()
         user_id = 'me'
         msg = create_message_with_attachment(
-            'gurkar2gkb@gmail.com', 'gurkar2gkb@gmail.com',
+            'GMAIL_USER', 'GMAIL_USER',
             'Emergency Alert', 'suspicious weapon detected', screenshot_path
         )
         send_message(service, user_id, msg)
 
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred: {e}")
+# Function to play voice alert
+
+
 class DesktopApp(Tk):
     def __init__(self, *args, **kwargs):
         Tk.__init__(self, *args, **kwargs)
@@ -285,9 +294,9 @@ class DesktopApp(Tk):
             if name == "About Us":
                 try:
                     # Load images
-                    image1 = PhotoImage(file=relative_to_assets("Untitled design/3.png"))  # Replace "path_to_image1.png" with your image path
-                    image2 = PhotoImage(file=relative_to_assets("Untitled design/2.png"))  # Replace "path_to_image2.png" with your image path
-                    image3 = PhotoImage(file=relative_to_assets("Untitled design/1.png") ) # Replace "path_to_image3.png" with your image path
+                    image1 = PhotoImage(file=relative_to_assets("about/3.png"))  # Replace "path_to_image1.png" with your image path
+                    image2 = PhotoImage(file=relative_to_assets("about/2.png"))  # Replace "path_to_image2.png" with your image path
+                    image3 = PhotoImage(file=relative_to_assets("about/1.png") ) # Replace "path_to_image3.png" with your image path
 
                     # Create labels to display images
                     label1 = Label(self.windows["About Us"], image=image1, bg="#FFFFFF")
@@ -376,6 +385,7 @@ class DesktopApp(Tk):
 
                                     # Display the thumbnail in the "Records" window
                                     self.add_thumbnail_to_records(thumbnail_path)
+
 
                                     self.first_frame_processed = True
                                     send_emergency_email(screenshot_path)# Set the flag to indicate first frame processed

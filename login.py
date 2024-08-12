@@ -9,7 +9,7 @@ import subprocess
 import os
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("/Users/gurlivkaurbajwa/Downloads/asserts")
+ASSETS_PATH = OUTPUT_PATH / Path("./asserts")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)

@@ -24,7 +24,7 @@ from tkinter import messagebox
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("/Users/gurlivkaurbajwa/Downloads/asserts")
+ASSETS_PATH = OUTPUT_PATH / Path("./asserts")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -45,7 +45,7 @@ def get_service():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                '/Users/gurlivkaurbajwa/Downloads/asserts/client.json', SCOPES)
+                'API_KEY', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -113,7 +113,7 @@ def send_emergency_email():
         user_id = 'me'
 
         # Create the message with attachment
-        msg = create_message_with_attachment('gurkar2gkb@gmail.com', 'gurkar2gkb@gmail.com',
+        msg = create_message_with_attachment('GMAIL_USER', 'GMAIL_USER',
                                              'Emergency Alert', 'Emergency situation detected!', './sample_file.txt')
 
         # Send the message
