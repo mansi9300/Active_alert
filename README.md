@@ -20,7 +20,7 @@ The **Active Alert System** is a desktop application designed to detect various 
 ### Setup
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/gurliv21/Active-Alert2.git
+   git clone https://github.com/Mansi9300/Active-Alert.git
    cd active-alert-system
    ```
 
